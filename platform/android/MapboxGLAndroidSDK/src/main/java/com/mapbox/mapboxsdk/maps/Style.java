@@ -606,6 +606,22 @@ public class Style {
       return styleJson;
     }
 
+    List<Source> getSources() {
+      return sources;
+    }
+
+    List<LayerWrapper> getLayers() {
+      return layers;
+    }
+
+    List<ImageWrapper> getImages() {
+      return images;
+    }
+
+    TransitionOptions getTransitionOptions() {
+      return transitionOptions;
+    }
+
     /**
      * Build the composed style.
      */
@@ -613,41 +629,28 @@ public class Style {
       return new Style(this, nativeMapView);
     }
 
-    private class ImageWrapper {
-      private Bitmap bitmap;
-      private String id;
-      private boolean sdf;
+    class ImageWrapper {
+      Bitmap bitmap;
+      String id;
+      boolean sdf;
 
       ImageWrapper(String id, Bitmap bitmap, boolean sdf) {
         this.id = id;
         this.bitmap = bitmap;
         this.sdf = sdf;
       }
-
-      public Bitmap getBitmap() {
-        return bitmap;
-      }
-
-      public String getId() {
-        return id;
-      }
-
-      public boolean isSdf() {
-        return sdf;
-      }
     }
 
-    private class LayerWrapper {
-      private Layer layer;
+    class LayerWrapper {
+      Layer layer;
 
       LayerWrapper(Layer layer) {
         this.layer = layer;
       }
     }
 
-    private class LayerAboveWrapper extends LayerWrapper {
-
-      private String aboveLayer;
+    class LayerAboveWrapper extends LayerWrapper {
+      String aboveLayer;
 
       LayerAboveWrapper(Layer layer, String aboveLayer) {
         super(layer);
@@ -655,9 +658,8 @@ public class Style {
       }
     }
 
-    private class LayerBelowWrapper extends LayerWrapper {
-
-      private String belowLayer;
+    class LayerBelowWrapper extends LayerWrapper {
+      String belowLayer;
 
       LayerBelowWrapper(Layer layer, String belowLayer) {
         super(layer);
@@ -665,9 +667,8 @@ public class Style {
       }
     }
 
-    private class LayerAtWrapper extends LayerWrapper {
-
-      private int index;
+    class LayerAtWrapper extends LayerWrapper {
+      int index;
 
       LayerAtWrapper(Layer layer, int index) {
         super(layer);
