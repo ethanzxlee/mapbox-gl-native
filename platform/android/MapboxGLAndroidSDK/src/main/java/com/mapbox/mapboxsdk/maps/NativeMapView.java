@@ -1342,6 +1342,10 @@ final class NativeMapView {
     });
   }
 
+  boolean isDestroyed() {
+    return destroyed;
+  }
+
   //
   // Image conversion
   //
