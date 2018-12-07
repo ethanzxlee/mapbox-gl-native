@@ -754,6 +754,15 @@ public class MapView extends FrameLayout implements NativeMapView.ViewCallback {
   }
 
   /**
+   * Remove a callback that's invoked when the map has finished rendering.
+   *
+   * @param listener The callback that's invoked when the map has has finished rendering.
+   */
+  public void removeOnDidFinishRenderingMapListener(OnDidFinishRenderingMapListener listener) {
+    mapChangeReceiver.removeOnDidFinishRenderingMapListener(listener);
+  }
+
+  /**
    * Set a callback that's invoked when the map has entered the idle state.
    *
    * @param listener The callback that's invoked when the map has entered the idle state.
