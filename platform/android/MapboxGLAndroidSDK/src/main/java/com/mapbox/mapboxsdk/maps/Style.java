@@ -34,7 +34,7 @@ public class Style {
   private final HashMap<String, Layer> layers = new HashMap<>();
   private final HashMap<String, Bitmap> images = new HashMap<>();
   private final Builder builder;
-  private boolean styleLoaded;
+  private boolean fullyLoaded;
 
   /**
    * Private constructor to build a style object.
@@ -54,6 +54,11 @@ public class Style {
    */
   @NonNull
   public String getUrl() {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return "";
+    }
+
     return nativeMapView.getStyleUrl();
   }
 
@@ -64,6 +69,11 @@ public class Style {
    */
   @NonNull
   public String getJson() {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return "";
+    }
+
     return nativeMapView.getStyleJson();
   }
 
@@ -78,6 +88,11 @@ public class Style {
    */
   @NonNull
   public List<Source> getSources() {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return new ArrayList<>();
+    }
+
     return nativeMapView.getSources();
   }
 
@@ -87,6 +102,11 @@ public class Style {
    * @param source the source to add
    */
   public void addSource(@NonNull Source source) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     sources.put(source.getId(), source);
     nativeMapView.addSource(source);
   }
@@ -99,6 +119,11 @@ public class Style {
    */
   @Nullable
   public Source getSource(String id) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     Source source = sources.get(id);
     if (source == null) {
       source = nativeMapView.getSource(id);
@@ -115,6 +140,11 @@ public class Style {
    */
   @Nullable
   public <T extends Source> T getSourceAs(@NonNull String sourceId) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     // noinspection unchecked
     if (sources.containsKey(sourceId)) {
       return (T) sources.get(sourceId);
@@ -130,6 +160,11 @@ public class Style {
    */
   @Nullable
   public Source removeSource(@NonNull String sourceId) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     sources.remove(sourceId);
     return nativeMapView.removeSource(sourceId);
   }
@@ -142,6 +177,11 @@ public class Style {
    */
   @Nullable
   public Source removeSource(@NonNull Source source) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     sources.remove(source.getId());
     return nativeMapView.removeSource(source);
   }
@@ -156,6 +196,11 @@ public class Style {
    * @param layer the layer to add
    */
   public void addLayer(@NonNull Layer layer) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     layers.put(layer.getId(), layer);
     nativeMapView.addLayer(layer);
   }
@@ -167,6 +212,11 @@ public class Style {
    * @param below the layer id to add this layer before
    */
   public void addLayerBelow(@NonNull Layer layer, @NonNull String below) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     layers.put(layer.getId(), layer);
     nativeMapView.addLayerBelow(layer, below);
   }
@@ -178,6 +228,11 @@ public class Style {
    * @param above the layer id to add this layer above
    */
   public void addLayerAbove(@NonNull Layer layer, @NonNull String above) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     layers.put(layer.getId(), layer);
     nativeMapView.addLayerAbove(layer, above);
   }
@@ -190,6 +245,11 @@ public class Style {
    * @param index the index to insert the layer at
    */
   public void addLayerAt(@NonNull Layer layer, @IntRange(from = 0) int index) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     layers.put(layer.getId(), layer);
     nativeMapView.addLayerAt(layer, index);
   }
@@ -202,6 +262,11 @@ public class Style {
    */
   @Nullable
   public Layer getLayer(@NonNull String id) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     Layer layer = layers.get(id);
     if (layer == null) {
       layer = nativeMapView.getLayer(id);
@@ -218,6 +283,11 @@ public class Style {
    */
   @Nullable
   public <T extends Layer> T getLayerAs(@NonNull String layerId) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     // noinspection unchecked
     return (T) nativeMapView.getLayer(layerId);
   }
@@ -229,6 +299,11 @@ public class Style {
    */
   @NonNull
   public List<Layer> getLayers() {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return new ArrayList<>();
+    }
+
     return nativeMapView.getLayers();
   }
 
@@ -240,6 +315,11 @@ public class Style {
    */
   @Nullable
   public Layer removeLayer(@NonNull String layerId) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     layers.remove(layerId);
     return nativeMapView.removeLayer(layerId);
   }
@@ -252,6 +332,11 @@ public class Style {
    */
   @Nullable
   public Layer removeLayer(@NonNull Layer layer) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     layers.remove(layer.getId());
     return nativeMapView.removeLayer(layer);
   }
@@ -264,6 +349,11 @@ public class Style {
    */
   @Nullable
   public Layer removeLayerAt(@IntRange(from = 0) int index) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     Layer layer = nativeMapView.removeLayerAt(index);
     if (layer != null) {
       layers.remove(layer.getId());
@@ -293,6 +383,11 @@ public class Style {
    * @param sdf   the flag indicating image is an SDF or template image
    */
   public void addImage(@NonNull String name, @NonNull Bitmap image, boolean sdf) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     nativeMapView.addImage(name, image, sdf);
   }
 
@@ -300,6 +395,11 @@ public class Style {
    * Adds an images to be used in the map's style.
    */
   public void addImages(@NonNull HashMap<String, Bitmap> images) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     nativeMapView.addImages(images);
   }
 
@@ -309,6 +409,11 @@ public class Style {
    * @param name the name of the image to remove
    */
   public void removeImage(@NonNull String name) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     nativeMapView.removeImage(name);
   }
 
@@ -320,6 +425,11 @@ public class Style {
    */
   @Nullable
   public Bitmap getImage(@NonNull String id) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     return nativeMapView.getImage(id);
   }
 
@@ -336,6 +446,11 @@ public class Style {
    * @param transitionOptions the transition options
    */
   public void setTransition(@NonNull TransitionOptions transitionOptions) {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return;
+    }
+
     nativeMapView.setTransitionDuration(transitionOptions.getDuration());
     nativeMapView.setTransitionDelay(transitionOptions.getDelay());
   }
@@ -350,6 +465,11 @@ public class Style {
    */
   @NonNull
   public TransitionOptions getTransition() {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return new TransitionOptions(0, 0);
+    }
+
     return new TransitionOptions(nativeMapView.getTransitionDuration(), nativeMapView.getTransitionDelay());
   }
 
@@ -364,6 +484,11 @@ public class Style {
    */
   @Nullable
   public Light getLight() {
+    if (!fullyLoaded) {
+      // we are loading a new style
+      return null;
+    }
+
     return nativeMapView.getLight();
   }
 
@@ -372,7 +497,6 @@ public class Style {
    * by setting the java sources and layers in a detached state and removing them from core.
    */
   void onWillStartLoadingMap() {
-    styleLoaded = false;
     for (Source source : sources.values()) {
       if (source != null) {
         source.setDetached();
@@ -395,6 +519,8 @@ public class Style {
     sources.clear();
     layers.clear();
     images.clear();
+
+    fullyLoaded = false;
   }
 
   /**
@@ -402,8 +528,8 @@ public class Style {
    * This method will add all components added to the builder that were defined with the 'with' prefix.
    */
   void onDidFinishLoadingStyle() {
-    if (!styleLoaded) {
-      styleLoaded = true;
+    if (!fullyLoaded) {
+      fullyLoaded = true;
       for (Source source : builder.sources) {
         addSource(source);
       }
@@ -431,8 +557,8 @@ public class Style {
     }
   }
 
-  boolean isStyleLoaded() {
-    return styleLoaded;
+  public boolean isFullyLoaded() {
+    return fullyLoaded;
   }
 
   //
